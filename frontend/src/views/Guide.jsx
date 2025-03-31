@@ -1,0 +1,1 @@
+// A guide or help page with information about how to care for the plants or use the app.

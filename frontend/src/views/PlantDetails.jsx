@@ -1,0 +1,1 @@
+//Detailed view of a specific plant when clicked on from the home page.
