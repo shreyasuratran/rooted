@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { simulateSensorData } from './simulateData';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [plantData, setPlantData] = useState([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const data = simulateSensorData();
+      console.log('Simulated Data:', data);
+      setPlantData(data);
+    }, 60000);  // updates every minute
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>Plant Data Simulation</h1>
+      {plantData.map((data, index) => (
+        <div key={index}>
+          <h2>{data.plantId}</h2>
+          <p>Temperature: {data.temperature.toFixed(2)}°C</p>
+          <p>Humidity: {data.humidity.toFixed(2)}%</p>
+          <p>Water Amount: {data.waterAmount.toFixed(2)}%</p>
+          <p>Sunlight Exposure: {data.sunlightExposure.toFixed(2)}%</p>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export default App
+export default App;
