@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import avatarImage from './avatar.jpeg'; 
+import avatarImage from './avatar.png'; 
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +39,11 @@ const NavBar = () => {
           </Link>
         </div>
         <ul className="sidebar-links">
+          <li>
+            <Link to="/home" onClick={() => setIsOpen(false)}>
+              Home
+            </Link>
+          </li>
           <li>
             <Link to="/guide" onClick={() => setIsOpen(false)}>
               Plant Icon Guide
