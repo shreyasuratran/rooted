@@ -7,7 +7,7 @@
   
   .plant-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
   }
   
@@ -18,7 +18,12 @@
   }
   
   .plant-title h1 {
+    font-size: 30px;
     margin: 0;
+  }
+
+  .plant-title p {
+    font-size: 25px;
   }
   
   .icons button {
@@ -29,10 +34,14 @@
     margin-left: 10px;
   }
   
-  .top-section {
+  .top-section-container {
     display: flex;
+    flex-direction: column;
     gap: 16px;
     margin: 20px 0;
+    padding: 20px 0px 8px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.335);
   }
   
   .plant-image {
@@ -42,6 +51,12 @@
     border-radius: 12px;
   }
   
+  .image-and-recs {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 5px;
+  }
+
   .recommendations h3 {
     margin: 0 0 8px;
   }
@@ -50,16 +65,18 @@
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
   }
   
   .rec-box.blue {
     background: #e6f0ff;
-    border: 1px solid #a6c9ff;
+    border: 2px solid #a6c9ff;
   }
   
   .rec-box.yellow {
     background: #fff9e6;
-    border: 1px solid #ffd966;
+    border: 2px solid #ffd966;
   }
   
   .stats-grid {
@@ -72,14 +89,33 @@
   .stat-box {
     padding: 10px;
     border-radius: 10px;
-    font-size: 14px;
-    text-align: center;
+    font-size: 18px;
+    text-align: left;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.335);
   }
   
-  .stat-box.blue { background: #e6f0ff; }
-  .stat-box.yellow { background: #fffbe6; }
-  .stat-box.red { background: #ffe6e6; }
-  .stat-box.green { background: #e6ffef; }
+  .stat-box.blue { 
+    background: #e6f0ff;
+    border: 2px solid #a6c9ff;
+  }
+  .stat-box.yellow { 
+    background: #fff9e6;
+    border: 2px solid #ffd966;
+  }
+  .stat-box.red { 
+    background: #ffe6e6;
+    border: 2px solid #ffaeae;
+  }
+  .stat-box.green { 
+    background: #e6ffef;
+    border: 2px solid #67cf8d;
+  }
+
+  .care-history {
+    padding: 1px 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.335);
+  }
   
   .care-history h3 {
     margin-bottom: 12px;

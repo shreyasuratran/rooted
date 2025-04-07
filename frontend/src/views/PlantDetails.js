@@ -63,18 +63,6 @@ const PlantDetails = () => {
 
   return (
     <div className="plant-details-container">
-      <div className="plant-header">
-        <Link to="/" className="back-button">←</Link>
-        <div className="plant-title">
-          <h1>{plant.name}</h1>
-          <p>{plant.type}</p>
-        </div>
-        <div className="icons">
-          <button className="edit-btn" onClick={handleEditToggle}>✏️</button>
-          <button className="delete-btn" onClick={handleDelete}>🗑️</button>
-        </div>
-      </div>
-
       {isEditing ? (
         <form onSubmit={handleFormSubmit} className="edit-form">
           <input name="name" value={formData.name} onChange={handleFormChange} placeholder="Name" required />
@@ -87,12 +75,25 @@ const PlantDetails = () => {
         </form>
       ) : (
         <>
-          <div className="top-section">
-            <img src={plant.image || 'https://via.placeholder.com/120'} alt={plant.name} className="plant-image" />
-            <div className="recommendations">
-              <h3>Recommendations</h3>
-              <div className="rec-box blue">Watering needed soon.</div>
-              <div className="rec-box yellow">Light adjustment.</div>
+          <Link to="/rooted" className="back-button">←</Link>
+          <div className="top-section-container">
+            <div className="plant-header">
+              <div className="plant-title">
+                <h1>{plant.name}</h1>
+                <p>{plant.type}</p>
+              </div>
+              <div className="icons">
+                <button className="edit-btn" onClick={handleEditToggle}>✏️</button>
+                <button className="delete-btn" onClick={handleDelete}>🗑️</button>
+              </div>
+            </div>
+            <div className="image-and-recs">
+              <img src={plant.image || 'https://via.placeholder.com/120'} alt={plant.name} className="plant-image" />
+              <div className="recommendations">
+                <h3>Recommendations</h3>
+                <div className="rec-box blue">Watering needed soon.</div>
+                <div className="rec-box yellow">Light adjustment.</div>
+              </div>
             </div>
           </div>
 
