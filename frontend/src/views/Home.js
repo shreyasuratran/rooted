@@ -5,7 +5,14 @@ import './Home.css';
 const Home = () => {
   const [plants, setPlants] = useState(() => {
     const saved = localStorage.getItem('plants');
-    return saved ? JSON.parse(saved) : [
+    if (saved) {
+      try {
+        return JSON.parse(saved); // Use existing localStorage data if valid
+      } catch (error) {
+        console.error("Error parsing localStorage data:", error);
+      }
+    }
+    const initialPlants = [
       {
         id: 1,
         name: 'Fiddle-Leaf Fig',
@@ -27,6 +34,8 @@ const Home = () => {
         image: '',
       }
     ];
+    localStorage.setItem('plants', JSON.stringify(initialPlants));
+    return initialPlants;
   });
   
   const [showForm, setShowForm] = useState(false);

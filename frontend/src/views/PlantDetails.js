@@ -18,7 +18,7 @@ const PlantDetails = () => {
 
   useEffect(() => {
     const savedPlants = JSON.parse(localStorage.getItem('plants')) || [];
-    const matchedPlant = savedPlants.find(p => String(p.id) === id);
+    const matchedPlant = savedPlants.find(p => String(p.id) === String(id));
     setPlant(matchedPlant);
 
     if (matchedPlant) {
