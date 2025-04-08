@@ -102,7 +102,7 @@ const PlantDetails = () => {
   const handleDelete = async () => {
     try {
       await api.delete(`/plants/${id}`);
-      navigate('/home');
+      navigate('/rooted');
     } catch (error) {
       console.error('Error deleting plant:', error);
     }

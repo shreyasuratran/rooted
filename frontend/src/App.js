@@ -14,16 +14,14 @@ import CreateAccount from './views/CreateAccount';
 function App() {
   return (
     <BrowserRouter>
-      
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<CreateAccount />} />
+        <Route path="/rooted/login" element={<Login />} />
+        <Route path="/rooted/register" element={<CreateAccount />} />
         <Route path="/rooted" element={<PrivateRoute> <NavBar /><Home /> </PrivateRoute>} />
-        <Route path="/home" element={<PrivateRoute> <NavBar /><Home /> </PrivateRoute>} />
-        <Route path="/plant/:id" element={<PrivateRoute> <NavBar /><PlantDetails /> </PrivateRoute>} />
-        <Route path="/guide" element={<PrivateRoute> <NavBar /><Guide /> </PrivateRoute>} />
-        <Route path="/contact" element={<PrivateRoute> <NavBar /><ContactUs /> </PrivateRoute>} />
-        <Route path="/profile" element={<PrivateRoute> <NavBar /><Profile /> </PrivateRoute>} />
+        <Route path="/rooted/plant/:id" element={<PrivateRoute> <NavBar /><PlantDetails /> </PrivateRoute>} />
+        <Route path="/rooted/guide" element={<PrivateRoute> <NavBar /><Guide /> </PrivateRoute>} />
+        <Route path="/rooted/contact" element={<PrivateRoute> <NavBar /><ContactUs /> </PrivateRoute>} />
+        <Route path="/rooted/profile" element={<PrivateRoute> <NavBar /><Profile /> </PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

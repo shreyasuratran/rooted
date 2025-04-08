@@ -21,7 +21,7 @@ const Login = () => {
       const { access_token } = response.data;
       localStorage.setItem("access_token", access_token);
       console.log("Login success, token saved");
-      navigate("/home"); // or wherever you want to go next
+      navigate("/rooted"); 
     } catch (err) {
       setError("Invalid credentials");
       console.error(err);
@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   const goToCreateAccount = () => {
-    navigate("/register");
+    navigate("/rooted/register");
   };
 
   return (

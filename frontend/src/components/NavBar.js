@@ -34,28 +34,28 @@ const NavBar = () => {
             className="sidebar-avatar"
           />
           <p>@plantlover984</p>
-          <Link to="/profile" className="sidebar-profile-link" onClick={() => setIsOpen(false)}>
+          <Link to="/rooted/profile" className="sidebar-profile-link" onClick={() => setIsOpen(false)}>
             View profile
           </Link>
         </div>
         <ul className="sidebar-links">
           <li>
-            <Link to="/home" onClick={() => setIsOpen(false)}>
+            <Link to="/rooted" onClick={() => setIsOpen(false)}>
               Home
             </Link>
           </li>
           <li>
-            <Link to="/guide" onClick={() => setIsOpen(false)}>
+            <Link to="/rooted/guide" onClick={() => setIsOpen(false)}>
               Plant Icon Guide
             </Link>
           </li>
           <li>
-            <Link to="/contact" onClick={() => setIsOpen(false)}>
+            <Link to="/rooted/contact" onClick={() => setIsOpen(false)}>
               Contact Us
             </Link>
           </li>
           <li>
-            <Link to="/login" onClick={() => {
+            <Link to="/rooted/login" onClick={() => {
               localStorage.removeItem('access_token');
               setIsOpen(false);}}>
               <strong>Logout</strong>

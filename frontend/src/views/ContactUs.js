@@ -18,7 +18,7 @@ const ContactUs = () => {
   return (
     <div className="contact-container">
       <div className="contact-header">
-      <Link to="/home" className="back-arrow">←</Link>
+      <Link to="/rooted" className="back-arrow">←</Link>
         <h1>Contact Us</h1>
         <p>We're here to help. Send us a message below.</p>
       </div>

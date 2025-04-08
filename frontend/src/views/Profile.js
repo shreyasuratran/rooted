@@ -15,7 +15,7 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <Link to="/" className="back-arrow">←</Link>
+        <Link to="/rooted" className="back-arrow">←</Link>
         <h1>My Profile</h1>
       </div>
 

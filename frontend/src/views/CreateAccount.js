@@ -16,7 +16,7 @@ const CreateAccount = () => {
   const navigate = useNavigate();
 
   const goToLogin = () => {
-    navigate("/login");
+    navigate("/rooted/login");
   };
 
   const handleChange = (e) => {
@@ -42,7 +42,7 @@ const CreateAccount = () => {
 
       await api.post("/users/register", payload);
       console.log("Signup success");
-      navigate("/login");
+      navigate("/rooted/login");
     } catch (err) {
       setError("Sign up failed");
       console.error(err);

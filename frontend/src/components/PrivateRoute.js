@@ -18,7 +18,7 @@ const PrivateRoute = ({ children }) => {
 
   if (checking) return <div>Loading...</div>; // Or a loader/spinner
 
-  return valid ? children : <Navigate to="/login" />;
+  return valid ? children : <Navigate to="/rooted/login" />;
 };
 
 export default PrivateRoute;

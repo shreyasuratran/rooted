@@ -7,7 +7,7 @@ const Guide = () => {
   return (
     <div className="guide-container">
       <div className="guide-header">
-       <Link to="/home" className="back-arrow">←</Link>
+       <Link to="/rooted" className="back-arrow">←</Link>
         <h1>Plant Care Guide</h1>
         <p className="subtitle">Understand Your Plants Needs.</p>
       </div>

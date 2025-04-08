@@ -97,7 +97,7 @@ const Home = () => {
       {/* Plant List Section */}
       <section className="plant-list">
         {plants.map((plant) => (
-          <Link to={`/plant/${plant.id}`} key={plant.id} className="plant-card">
+          <Link to={`/rooted/plant/${plant.id}`} key={plant.id} className="plant-card">
             <div className="plant-image">
               <img
                 src={plant.image || 'https://via.placeholder.com/100'}
