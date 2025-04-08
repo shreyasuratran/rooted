@@ -133,20 +133,30 @@
     font-size: 12px;
     color: #999;
   }
-  
   .fab-button {
-    position: absolute;
+    position: fixed;
     right: 20px;
     bottom: 20px;
     background-color: #0b9e69; 
     color: #fff;
     border: none;
-    width: 48px;
-    height: 48px;
-    border-radius: 24px;
-    font-size: 24px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 56px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .fab-button:hover {
+    background-color: #09895a;
   }
   
   .add-plant-modal {
@@ -191,5 +201,52 @@
   
   .add-plant-form button[type="button"] {
     background: gray;
+  }
+  .attention-scroll {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
+  }
+  
+  .attention-card {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    min-width: 180px;
+    max-width: 180px;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .attention-card h3 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .attention-water {
+    background-color: #e7f1ff;
+    border: 1px solid #b8daff;
+    color: #005299;
+  }
+  
+  .attention-critical {
+    background-color: #ffe7e7;
+    border: 1px solid #fab8b8;
+    color: #a60000;
+  }
+  
+  .attention-temp {
+    background-color: #fffbe6;
+    border: 1px solid #ffe58f;
+    color: #b38600;
   }
   

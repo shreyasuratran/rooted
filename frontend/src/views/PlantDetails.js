@@ -15,6 +15,27 @@ const PlantDetails = () => {
     temperature: '',
     image: ''
   });
+  const [activeInfo, setActiveInfo] = useState(null);
+
+const infoContent = {
+  water: {
+    title: "Water",
+    body: "Water percentage represents how moist the soil is. When it drops below 30%, it's time to water your plant. Overwatering can be just as harmful, so aim for a balance!"
+  },
+  sunlight: {
+    title: "Sunlight",
+    body: "This value shows how much light your plant receives. Most indoor plants prefer bright, indirect light. Too much direct sunlight can burn the leaves."
+  },
+  temperature: {
+    title: "Temperature",
+    body: "Plants thrive in stable temperatures between 18–28°C. Extreme cold or heat can shock the plant and slow its growth."
+  },
+  humidity: {
+    title: "Humidity",
+    body: "Humidity measures moisture in the air. Most houseplants love 40–60% humidity. Too dry, and their leaves may brown or curl."
+  }
+};
+
 
   useEffect(() => {
     const savedPlants = JSON.parse(localStorage.getItem('plants')) || [];
@@ -98,11 +119,31 @@ const PlantDetails = () => {
           </div>
 
           <div className="stats-grid">
-            <div className="stat-box blue">💧 Moisture<br /><strong>{plant.water || plant.moisture}%</strong></div>
-            <div className="stat-box yellow">☀️ Sunlight<br /><strong>{plant.sunlight || 65}%</strong></div>
-            <div className="stat-box red">🌡️ Temperature<br /><strong>{plant.temperature}°C</strong></div>
-            <div className="stat-box green">💨 Humidity<br /><strong>{plant.humidity}%</strong></div>
-          </div>
+  <div className="stat-box blue" onClick={() => setActiveInfo('water')}>
+    <div className="stat-content">
+      💧 Moisture<br />
+      <strong>{plant.water}%</strong>
+    </div>
+  </div>
+  <div className="stat-box yellow" onClick={() => setActiveInfo('sunlight')}>
+    <div className="stat-content">
+      ☀️ Sunlight<br />
+      <strong>{plant.sunlight || 65}%</strong>
+    </div>
+  </div>
+  <div className="stat-box red" onClick={() => setActiveInfo('temperature')}>
+    <div className="stat-content">
+      🌡️ Temperature<br />
+      <strong>{plant.temperature}°C</strong>
+    </div>
+  </div>
+  <div className="stat-box green" onClick={() => setActiveInfo('humidity')}>
+    <div className="stat-content">
+      💨 Humidity<br />
+      <strong>{plant.humidity}%</strong>
+    </div>
+  </div>
+</div>
 
           <div className="care-history">
             <h3>Care History</h3>
@@ -114,6 +155,16 @@ const PlantDetails = () => {
           </div>
         </>
       )}
+      {activeInfo && (
+      <div className="info-modal-overlay" onClick={() => setActiveInfo(null)}>
+        <div className="info-modal" onClick={(e) => e.stopPropagation()}>
+          <h3>{infoContent[activeInfo].title}</h3>
+          <p>{infoContent[activeInfo].body}</p>
+          <button onClick={() => setActiveInfo(null)}>Close</button>
+        </div>
+      </div>
+    )}
+
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Home.css';
 
 const Home = () => {
+  
   const [plants, setPlants] = useState(() => {
     const saved = localStorage.getItem('plants');
     if (saved) {
@@ -67,22 +68,55 @@ const Home = () => {
     setNewPlant({ name: '', type: '', water: '', humidity: '', temperature: '', image: '' });
     setShowForm(false);
   };
-
+ 
   return (
+    
     <div className="home-container">
-      <section className="attention-section">
-        <h2>Needs Attention</h2>
-
-        <div className="attention-card attention-water">
-          <h3>Snake Plant Needs Care</h3>
-          <p>Your Snake Plant will need water soon.</p>
+     <section className="attention-section">
+  <h2>Needs Attention</h2>
+  <div className="attention-scroll">
+    {plants
+      .flatMap((plant) => {
+        const alerts = [];
+        if (plant.water < 30) {
+          alerts.push({
+            id: `${plant.id}-water`,
+            message: `${plant.name} needs water!`,
+            className: 'attention-critical',
+          });
+        } else if (plant.water < 50) {
+          alerts.push({
+            id: `${plant.id}-water-soon`,
+            message: `${plant.name} will need water soon.`,
+            className: 'attention-water',
+          });
+        }
+        if (plant.humidity < 40) {
+          alerts.push({
+            id: `${plant.id}-humidity`,
+            message: `${plant.name} needs more humidity.`,
+            className: 'attention-water',
+          });
+        }
+        if (plant.temperature < 18 || plant.temperature > 28) {
+          alerts.push({
+            id: `${plant.id}-temp`,
+            message: `${plant.name} is not in optimal temperature.`,
+            className: 'attention-temp',
+          });
+        }
+        
+        return alerts;
+      })
+      .map((alert) => (
+        <div key={alert.id} className={`attention-card ${alert.className}`}>
+          <h3>{alert.message}</h3>
         </div>
+      ))}
+  </div>
+</section>
 
-        <div className="attention-card attention-critical">
-          <h3>Monstera Needs Care</h3>
-          <p>Urgent: Your Monstera is critically dry.</p>
-        </div>
-      </section>
+
 
       <section className="plant-list">
         {plants.map((plant) => (
