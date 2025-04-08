@@ -1,16 +1,10 @@
 import React from 'react';
 import './Profile.css';
 import { Link } from 'react-router-dom';
+import { useUser } from '../components/UserContext';
 
 const Profile = () => {
-  const user = {
-    name: 'Asha Greenleaf',
-    username: '@plantlover984',
-    email: 'asha.greenleaf@example.com',
-    location: 'Austin, TX',
-    joined: 'March 2024',
-    avatar: '/avatar.jpeg',
-  };
+  const { user } = useUser();
 
   return (
     <div className="profile-container">
@@ -20,12 +14,10 @@ const Profile = () => {
       </div>
 
       <div className="profile-card">
-        <img src={user.avatar} alt="Profile Avatar" className="profile-avatar" />
-        <h2>{user.name}</h2>
-        <p className="username">{user.username}</p>
-        <p className="profile-detail"><strong>Email:</strong> {user.email}</p>
-        <p className="profile-detail"><strong>Location:</strong> {user.location}</p>
-        <p className="profile-detail"><strong>Joined:</strong> {user.joined}</p>
+        <img src={user?.profile_picture} alt="Profile Avatar" className="profile-avatar" />
+        <h2>{user?.first_name} {user?.last_name}</h2>
+        <p className="profile-detail"><strong>Email:</strong> {user?.email}</p>
+        <p className="profile-detail"><strong>Joined:</strong> {user?.created_at}</p>
       </div>
     </div>
   );

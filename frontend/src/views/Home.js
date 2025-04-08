@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/axios'; // make sure this is correct
 import './Home.css';
+const UNSPLASH_ACCESS_KEY = 'JPQ618WPRpM8GZ9Z6H3xVpvz9xzLAt5bBu6_O-oUQ7U';
 
 const Home = () => {
   const [plants, setPlants] = useState([]);
@@ -11,6 +12,7 @@ const Home = () => {
     type: '',
     image: '',
   });
+  const [suggestedImages, setSuggestedImages] = useState([]);
 
   // Fetch plants from backend on component mount
   useEffect(() => {
@@ -31,9 +33,11 @@ const Home = () => {
   }, []);
 
   const handleInputChange = (e) => {
-    setNewPlant({ ...newPlant, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setNewPlant((prev) => ({ ...prev, [name]: value }));
   };
-
+  
+  
   const handleAddPlant = async (e) => {
     e.preventDefault();
     try {
@@ -48,6 +52,20 @@ const Home = () => {
     }
   };
 
+  const fetchImageSuggestions = async () => {
+    if (!newPlant.type || newPlant.type.length < 2) return;
+  
+    try {
+      const response = await fetch(
+        `https://api.unsplash.com/search/photos?query=${newPlant.type}&client_id=${UNSPLASH_ACCESS_KEY}&per_page=6`
+      );
+      const data = await response.json();
+      setSuggestedImages(data.results.map((img) => img.urls.small));
+    } catch (err) {
+      console.error('Failed to fetch images:', err);
+    }
+  };
+  
   return (
     <div className="home-container">
       {/* Attention Section */}
@@ -146,17 +164,72 @@ const Home = () => {
 
       {/* Add Plant Modal */}
       {showForm && (
-        <div className="add-plant-modal">
-          <form className="add-plant-form" onSubmit={handleAddPlant}>
-            <h3>Add New Plant</h3>
-            <input type="text" name="name" placeholder="Plant Name" value={newPlant.name} onChange={handleInputChange} required />
-            <input type="text" name="type" placeholder="Plant Type" value={newPlant.type} onChange={handleInputChange} required />
-            <input type="text" name="image" placeholder="Image URL (optional)" value={newPlant.image} onChange={handleInputChange} />
-            <button type="submit">Add Plant</button>
-            <button type="button" onClick={() => setShowForm(false)}>Cancel</button>
-          </form>
+  <div className="add-plant-modal">
+    <form className="add-plant-form" onSubmit={handleAddPlant}>
+      <h3>Add New Plant</h3>
+
+      <input
+        type="text"
+        name="name"
+        placeholder="Plant Name"
+        value={newPlant.name}
+        onChange={handleInputChange}
+        required
+      />
+      <input
+        type="text"
+        name="type"
+        placeholder="Plant Type"
+        value={newPlant.type}
+        onChange={handleInputChange}
+        required
+      />
+
+      <button
+        type="button"
+        className="lookup-button"
+        onClick={fetchImageSuggestions}
+      >
+        🔍 Look Up Image
+      </button>
+
+      <input
+        type="text"
+        name="image"
+        placeholder="Image URL (optional)"
+        value={newPlant.image}
+        onChange={handleInputChange}
+      />
+
+      {suggestedImages.length > 0 && (
+        <div className="image-suggestions">
+          <p>Suggested Images:</p>
+          <div className="image-grid">
+            {suggestedImages.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt="Suggested plant"
+                onClick={() =>
+                  setNewPlant((prev) => ({ ...prev, image: url }))
+                }
+                className={`image-option ${
+                  newPlant.image === url ? 'selected' : ''
+                }`}
+              />
+            ))}
+          </div>
         </div>
       )}
+
+      <button type="submit">Add Plant</button>
+      <button type="button" onClick={() => setShowForm(false)}>
+        Cancel
+      </button>
+    </form>
+  </div>
+)}
+
     </div>
   );
 };

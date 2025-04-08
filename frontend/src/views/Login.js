@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/axios";
 import "./Login.css";
+import { useUser } from "../components/UserContext";
 
 const Login = () => {
   const [form, setForm] = useState({ identifier: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const { setUser } = useUser();
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -20,6 +21,7 @@ const Login = () => {
       const response = await api.post("/auth/login", form);
       const { access_token } = response.data;
       localStorage.setItem("access_token", access_token);
+      setUser(response.data.user);
       console.log("Login success, token saved");
       navigate("/rooted"); 
     } catch (err) {

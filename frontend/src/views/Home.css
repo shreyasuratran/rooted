@@ -1,252 +1,291 @@
 .home-container {
-    max-width: 400px;  
-    margin: 0 auto;
-    padding: 20px;
-    font-family: sans-serif;
-    position: relative; 
-  }
-  
-  .home-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .header-text h1 {
-    font-size: 28px;
-    margin: 0;
-  }
-  
-  .header-text p {
-    margin: 5px 0 0;
-    color: #555;
-  }
-  
-  .profile-avatar {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .avatar-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  .attention-section {
-    margin-bottom: 20px;
-  }
-  
-  .attention-section h2 {
-    margin: 0 0 10px;
-    font-size: 20px;
-  }
-  
-  .attention-card {
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .attention-water {
-    background-color: #e7f1ff;
-    border: 1px solid #b8daff;
-  }
-  
-  .attention-critical {
-    background-color: #ffe7e7;
-    border: 1px solid #fab8b8;
-  }
-  
-  .plant-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .plant-card {
-    display: flex;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-decoration: none;
-    color: inherit;
-    overflow: hidden;
-  }
-  
-  .plant-image {
-    position: relative;
-    min-width: 120px;
-    background-color: #fafafa;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  
-  .plant-image img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-  }
-  
-  .status-dot {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-  
-  .plant-info {
-    flex: 1;
-    padding: 12px;
-  }
-  
-  .plant-info h3 {
-    margin: 0;
-    font-size: 18px;
-  }
-  
-  .plant-type {
-    color: #777;
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  
-  .plant-stats {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 8px;
-  }
-  
-  .stat-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: #555;
-  }
-  
-  .updated-time {
-    font-size: 12px;
-    color: #999;
-  }
-  .fab-button {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    background-color: #0b9e69; 
-    color: #fff;
-    border: none;
-    width: 56px;
-    height: 56px;
-    border-radius: 28px;
-    font-size: 28px;
-    font-weight: bold;
-    line-height: 56px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    cursor: pointer;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .fab-button:hover {
-    background-color: #09895a;
-  }
-  
-  .add-plant-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-  }
-  
-  .add-plant-form {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .add-plant-form input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  .add-plant-form button {
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    background: #0b9e69;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .add-plant-form button[type="button"] {
-    background: gray;
-  }
-  .attention-scroll {
-    display: flex;
-    overflow-x: auto;
-    gap: 12px;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 10px;
-  }
-  
-  .attention-card {
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    min-width: 180px;
-    max-width: 180px;
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-family: 'Segoe UI', 'Roboto', sans-serif;
-    font-size: 14px;
-    line-height: 1.4;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .attention-card h3 {
-    margin: 0;
-    font-weight: 600;
-    font-size: 14px;
-  }
-  
-  .attention-water {
-    background-color: #e7f1ff;
-    border: 1px solid #b8daff;
-    color: #005299;
-  }
-  
-  .attention-critical {
-    background-color: #ffe7e7;
-    border: 1px solid #fab8b8;
-    color: #a60000;
-  }
-  
-  .attention-temp {
-    background-color: #fffbe6;
-    border: 1px solid #ffe58f;
-    color: #b38600;
-  }
-  
+  max-width: 400px;  
+  margin: 0 auto;
+  padding: 20px;
+  font-family: sans-serif;
+  position: relative; 
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header-text h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.header-text p {
+  margin: 5px 0 0;
+  color: #555;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.attention-section {
+  margin-bottom: 20px;
+}
+
+.attention-section h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.attention-card {
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.attention-water {
+  background-color: #e7f1ff;
+  border: 1px solid #b8daff;
+}
+
+.attention-critical {
+  background-color: #ffe7e7;
+  border: 1px solid #fab8b8;
+}
+
+.plant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.plant-card {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+.plant-image {
+  position: relative;
+  min-width: 120px;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.plant-image img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.status-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.plant-info {
+  flex: 1;
+  padding: 12px;
+}
+
+.plant-info h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.plant-type {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.plant-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #555;
+}
+
+.updated-time {
+  font-size: 12px;
+  color: #999;
+}
+.fab-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background-color: #0b9e69; 
+  color: #fff;
+  border: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 56px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fab-button:hover {
+  background-color: #09895a;
+}
+
+.add-plant-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.add-plant-form {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.add-plant-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.add-plant-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #0b9e69;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-plant-form button[type="button"] {
+  background: gray;
+}
+.attention-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+}
+
+.attention-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  min-width: 180px;
+  max-width: 180px;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.attention-card h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.attention-water {
+  background-color: #e7f1ff;
+  border: 1px solid #b8daff;
+  color: #005299;
+}
+
+.attention-critical {
+  background-color: #ffe7e7;
+  border: 1px solid #fab8b8;
+  color: #a60000;
+}
+
+.attention-temp {
+  background-color: #fffbe6;
+  border: 1px solid #ffe58f;
+  color: #b38600;
+}
+
+.image-suggestions {
+  margin-top: 12px;
+}
+
+.image-suggestions p {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-option {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s ease;
+}
+
+.image-option.selected {
+  border-color: #0b9e69;
+  box-shadow: 0 0 6px rgba(11, 158, 105, 0.4);
+}
+.lookup-button {
+  background-color: #0b9e69;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin: 8px 0;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}

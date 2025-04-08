@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import avatarImage from './avatar.png'; 
+import { useUser } from './UserContext';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { user } = useUser();
   const handleAvatarClick = () => {
     setIsOpen(!isOpen);
   };
@@ -33,7 +34,7 @@ const NavBar = () => {
             alt="avatar"
             className="sidebar-avatar"
           />
-          <p>@plantlover984</p>
+          <p>{user?.first_name} {user?.last_name}</p>
           <Link to="/rooted/profile" className="sidebar-profile-link" onClick={() => setIsOpen(false)}>
             View profile
           </Link>
