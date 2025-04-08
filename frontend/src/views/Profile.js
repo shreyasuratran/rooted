@@ -17,7 +17,10 @@ const Profile = () => {
         <img src={user?.profile_picture} alt="Profile Avatar" className="profile-avatar" />
         <h2>{user?.first_name} {user?.last_name}</h2>
         <p className="profile-detail"><strong>Email:</strong> {user?.email}</p>
-        <p className="profile-detail"><strong>Joined:</strong> {user?.created_at}</p>
+        <p className="profile-detail"><strong>Joined:</strong> {new Date(user?.created_at).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long', // or 'short' for "Apr"
+        })}</p>
       </div>
     </div>
   );
