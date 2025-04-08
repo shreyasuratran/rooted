@@ -21,14 +21,26 @@ const Login = () => {
       const response = await api.post("/auth/login", form);
       const { access_token } = response.data;
       localStorage.setItem("access_token", access_token);
-      setUser(response.data.user);
       console.log("Login success, token saved");
       navigate("/rooted"); 
     } catch (err) {
       setError("Invalid credentials");
       console.error(err);
     }
+    
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      try {
+        const res = await api.get('/users/me'); // or your auth/me endpoint
+        setUser(res.data);
+      } catch (err) {
+        console.error("Failed to auto-load user:", err);
+        localStorage.removeItem('access_token');
+      }
+    }
   };
+
+
 
   const goToCreateAccount = () => {
     navigate("/rooted/register");
