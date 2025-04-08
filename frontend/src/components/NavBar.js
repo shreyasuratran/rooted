@@ -55,9 +55,11 @@ const NavBar = () => {
             </Link>
           </li>
           <li>
-            <button onClick={() => console.log('Logging out...')}>
-              Log Out
-            </button>
+            <Link to="/login" onClick={() => {
+              localStorage.removeItem('access_token');
+              setIsOpen(false);}}>
+              <strong>Logout</strong>
+            </Link>
           </li>
         </ul>
       </div>

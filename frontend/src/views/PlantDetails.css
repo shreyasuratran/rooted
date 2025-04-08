@@ -46,11 +46,25 @@
   
   .plant-image {
     width: 120px;
-    height: 120px;
     object-fit: cover;
     border-radius: 12px;
   }
+
+  .secondary-button {
+    background-color: #f4f4f4;
+    color: #333;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
   
+  .secondary-button:hover {
+    background-color: #e0e0e0;
+  }
   .image-and-recs {
     display: flex;
     justify-content: space-evenly;
