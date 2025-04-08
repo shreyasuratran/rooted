@@ -250,3 +250,43 @@
     color: #b38600;
   }
   
+  .image-suggestions {
+    margin-top: 12px;
+  }
+  
+  .image-suggestions p {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .image-option {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s ease;
+  }
+  
+  .image-option.selected {
+    border-color: #0b9e69;
+    box-shadow: 0 0 6px rgba(11, 158, 105, 0.4);
+  }
+  .lookup-button {
+    background-color: #0b9e69;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
