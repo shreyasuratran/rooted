@@ -3,7 +3,7 @@ import aiohttp
 from datetime import datetime, timezone, timedelta
 import random
 
-API_BASE_URL = "http://127.0.0.1:8000/plants"  # Change this if running elsewhere
+API_BASE_URL = "https://rooted-api-production.up.railway.app/plants"  # Change this if running elsewhere
 
 async def fetch_all_plants(session):
     """Fetch all plants from the API."""
@@ -27,22 +27,27 @@ def calculate_new_values(plant):
     updated_fields = {}
 
     # Simulate moisture loss over time
-    if not plant["water"] :
-        updated_fields["water"] = round(random.uniform(50.0, 100.0), 2)
+    if not plant["moisture"] :
+        updated_fields["moisture"] = round(random.uniform(70.0, 100.0), 2)
     else :
-        updated_fields["water"] = round(max(0.0, plant["water"] - random.uniform(0.1, 0.5)), 2)
+        updated_fields["moisture"] = round(max(0.0, plant["moisture"] - random.uniform(0.1, 0.5)), 2)
 
     # Simulate realistic temperature fluctuations
     if not plant["temperature"] :
-        updated_fields["temperature"] = round(random.uniform(50.0, 100.0), 2)
+        updated_fields["temperature"] = round(random.uniform(18.0, 28.0), 2)
     else :
         updated_fields["temperature"] = round(plant["temperature"] + random.uniform(-0.5, 0.5), 2)
 
     # Simulate humidity changes
     if not plant["humidity"] :
-        updated_fields["humidity"] = round(random.uniform(50.0, 100.0), 2)
+        updated_fields["humidity"] = round(random.uniform(40.0, 60.0), 2)
     else :
         updated_fields["humidity"] = round(max(0.0, min(100.0, plant["humidity"] + random.uniform(-1.0, 1.0))), 2)
+
+    if not plant["sunlight"] :
+        updated_fields["sunlight"] = round(random.uniform(50.0, 70.0), 2)
+    else :
+        updated_fields["sunlight"] = round(max(0.0, min(100.0, plant["sunlight"] + random.uniform(-1.0, 1.0))), 2)
 
     return updated_fields
 
@@ -61,7 +66,7 @@ async def simulate_plant_updates():
                 
                 await asyncio.gather(*tasks)
 
-            await asyncio.sleep(3)
+            await asyncio.sleep(10)
 
 if __name__ == "__main__":
     asyncio.run(simulate_plant_updates())

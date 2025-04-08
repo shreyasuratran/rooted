@@ -74,7 +74,7 @@ const PlantDetails = () => {
     };
     fetchPlant();
 
-    const intervalId = setInterval(fetchPlant, 10000); // 60000 ms = 60 sec
+    const intervalId = setInterval(fetchPlant, 60000); // 60000 ms = 60 sec
     return () => clearInterval(intervalId);
 
   }, [id]);
@@ -159,10 +159,10 @@ const PlantDetails = () => {
               </div>
               <div className="recommendations">
                 <h3>Recommendations:</h3>
-                {needsWater && <div className="rec-box blue">Water plant.</div>}
-                {needsHumidity && <div className="rec-box blue">Adjust humidity.</div>}
-                {adjustTemp && <div className="rec-box yellow">Watering needed soon.</div>}
-                {adjustLight && <div className="rec-box yellow">Light adjustment.</div>}
+                {needsWater && <div className="rec-box blue">Water plant soon.</div>}
+                {needsHumidity && <div className="rec-box blue">Humidity adjustment needed.</div>}
+                {adjustTemp && <div className="rec-box yellow">Temp. adjustment needed.</div>}
+                {adjustLight && <div className="rec-box yellow">Light adjustment needed.</div>}
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@ const PlantDetails = () => {
                 <div>
                   <strong>Updated</strong><br />
                   {plant.updated_at
-                    ? <span>{formatDistanceToNow(new Date(plant.updated_at), { addSuffix: true })}, {format(new Date(plant.updated_at), 'hh:mm a')}</span>
+                    ? <span>{formatDistanceToNow(new Date(plant.updated_at.replace(' ', 'T') + 'Z'), { addSuffix: true })}, {format(new Date(plant.updated_at.replace(' ', 'T') + 'Z'), 'hh:mm a')}</span>
                     : <span>Never</span>}
                 </div>
               </li>
@@ -209,7 +209,7 @@ const PlantDetails = () => {
                 <div>
                   <strong>Watered</strong><br />
                   {plant.last_watered
-                    ? <span>{formatDistanceToNow(new Date(plant.last_watered), { addSuffix: true })}, {format(new Date(plant.last_watered), 'hh:mm a')}</span>
+                    ? <span>{formatDistanceToNow(new Date(plant.last_watered.replace(' ', 'T') + 'Z'), { addSuffix: true })}, {format(new Date(plant.last_watered.replace(' ', 'T') + 'Z'), 'hh:mm a')}</span>
                     : <span>Never</span>}
                 </div>
               </li>
@@ -217,7 +217,7 @@ const PlantDetails = () => {
                 <div>
                   <strong>Fertilized</strong><br />
                   {plant.last_fertilized
-                    ? <span>{formatDistanceToNow(new Date(plant.last_fertilized), { addSuffix: true })}, {format(new Date(plant.last_fertilized), 'hh:mm a')}</span>
+                    ? <span>{formatDistanceToNow(new Date(plant.last_fertilized.replace(' ', 'T') + 'Z'), { addSuffix: true })}, {format(new Date(plant.last_fertilized.replace(' ', 'T') + 'Z'), 'hh:mm a')}</span>
                     : <span>Never</span>}
                 </div>
               </li>
@@ -225,7 +225,7 @@ const PlantDetails = () => {
                 <div>
                   <strong>Repotted</strong><br />
                   {plant.last_repotted
-                    ? <span>{formatDistanceToNow(new Date(plant.last_repotted), { addSuffix: true })}, {format(new Date(plant.last_repotted), 'hh:mm a')}</span>
+                    ? <span>{formatDistanceToNow(new Date(plant.last_repotted.replace(' ', 'T') + 'Z'), { addSuffix: true })}, {format(new Date(plant.last_repotted.replace(' ', 'T') + 'Z'), 'hh:mm a')}</span>
                     : <span>Never</span>}
                 </div>
               </li>

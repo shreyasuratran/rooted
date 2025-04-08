@@ -7,12 +7,16 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
 from sqlalchemy.sql import text
 
 from util.database import Base, engine, get_db
+from simulation import simulate_plant_updates
+import asyncio
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)  # Create tables async
-        
+    
+    task = asyncio.create_task(simulate_plant_updates())
+
     yield  # Application startup happens here
     await engine.dispose()  # Cleanup when app shuts down
 
@@ -20,7 +24,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Adjust to match your frontend URL
+    allow_origins=["*"],  # Adjust to match your frontend URL
     allow_credentials=True,
     allow_methods=["*"],  # Allow all HTTP methods (POST, GET, OPTIONS, etc.)
     allow_headers=["*"],  # Allow all headers

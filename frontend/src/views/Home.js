@@ -16,7 +16,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPlants = async () => {
       try {
-        const response = await api.get('/plants');
+        const response = await api.get('/plants/');
         setPlants(response.data);
       } catch (error) {
         console.error('Error fetching plants:', error);
@@ -25,7 +25,7 @@ const Home = () => {
 
     fetchPlants();
 
-    const intervalId = setInterval(fetchPlants, 10000); // 60000 ms = 60 sec
+    const intervalId = setInterval(fetchPlants, 60000); // 60000 ms = 60 sec
     return () => clearInterval(intervalId);
 
   }, []);
@@ -37,7 +37,7 @@ const Home = () => {
   const handleAddPlant = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/plants', {
+      const response = await api.post('/plants/', {
         ...newPlant,
       });
       setPlants((prev) => [...prev, response.data]);
@@ -127,9 +127,8 @@ const Home = () => {
                   {plant.temperature}°C
                 </div>
               </div>
-              <p className="updated-time">
-                Updated {new Date(plant.updated_at).toLocaleString('en-US', {
-                  timeZone: 'America/Chicago', // Central Time (CT)
+              <p>
+                Last Updated {new Date(plant.updated_at.replace(' ', 'T') + 'Z').toLocaleString('en-US', {
                   hour: '2-digit',
                   minute: '2-digit',
                   hour12: true,

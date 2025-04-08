@@ -8,6 +8,8 @@ __pycache__/
 *.venv
 dump.rdb
 
+.env
+
 # FastAPI & Uvicorn logs
 *.log
 logs/
