@@ -9,25 +9,36 @@
   top: 0;
   z-index: 1000;
 }
-
-.navbar-left h2 {
-  font-size: 26px;
-  font-weight: 700;
-  margin: 0;
-  color: #0b9e69;
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.navbar-left p {
-  font-size: 14px;
-  color: #555;
-  margin: 4px 0 0;
+.logo-img {
+  width: 50px;
+  height: 50px;
 }
+
+.brand-name {
+  font-size: 30px;
+  font-weight: 600;
+  color: #3e6606;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 
 .navbar-right .avatar-img {
-  width: 42px;
-  height: 42px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
+  object-fit: cover;
   cursor: pointer;
+  border: 2px solid #3e6606; 
+}
+
+.navbar-right .avatar-img:hover {
+  box-shadow: 0 0 6px rgba(62, 102, 6, 0.4);
 }
 
   
@@ -36,7 +47,7 @@
     position: fixed;
     top: 0;
     right: 0;
-    width: 75%;
+    width: 100%;
     max-width: 300px;
     height: 100vh;
     background-color: #fff;
@@ -63,11 +74,14 @@
   }
   
   .sidebar-avatar {
-    width: 60px;
-    height: 60px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 8px;
+    border: 2px solid #ccc; 
   }
+  
   
   .sidebar-header p {
     margin: 0;

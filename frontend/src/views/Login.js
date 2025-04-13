@@ -1,13 +1,15 @@
-// Login.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/axios";
 import "./Login.css";
+import { useUser } from "../components/UserContext";
+import rootedLogo from "./rootedTextLogo.png";
 
 const Login = () => {
   const [form, setForm] = useState({ identifier: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -20,8 +22,9 @@ const Login = () => {
       const response = await api.post("/auth/login", form);
       const { access_token } = response.data;
       localStorage.setItem("access_token", access_token);
-      console.log("Login success, token saved");
-      navigate("/rooted"); 
+      const res = await api.get("/users/me");
+      setUser(res.data);
+      navigate("/rooted");
     } catch (err) {
       setError("Invalid credentials");
       console.error(err);
@@ -34,7 +37,9 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <h1>Login</h1>
+      <img src={rootedLogo} alt="Rooted Logo" className="auth-logo" />
+      <h1 className="auth-title">Welcome back!</h1>
+      <p className="auth-subtext">Login to continue caring for your plants 🌿</p>
       <form className="auth-form" onSubmit={handleLogin}>
         <input
           type="text"
@@ -52,10 +57,11 @@ const Login = () => {
           onChange={handleChange}
           required
         />
-        {error && <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>}
+        {error && <p className="auth-error">{error}</p>}
         <button type="submit">Login</button>
       </form>
-      <div style={{ marginTop: "16px", textAlign: "center" }}>
+      <div className="auth-bottom">
+        <p>Don’t have an account?</p>
         <button onClick={goToCreateAccount} className="secondary-button">
           Create Account
         </button>
