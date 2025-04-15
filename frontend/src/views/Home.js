@@ -111,9 +111,30 @@ const Home = () => {
       <h1 className="home-title">My Plants</h1>
       <hr className="section-divider" />
 
-      {/* Attention Section (omitted for brevity, as in your original code) */}
+      <section className="attention-section">
+        <h2 className="attention-title">Needs Attention</h2>
+        <div className="attention-scroll">
+          {plants
+            .flatMap((plant) => {
+              const alerts = [];
+              if (plant.moisture < 30)
+                alerts.push({ id: `${plant.id}-moisture`, message: `${plant.name} needs water!`, className: 'attention-critical' });
+              else if (plant.moisture < 50)
+                alerts.push({ id: `${plant.id}-moisture-soon`, message: `${plant.name} will need water soon.`, className: 'attention-water' });
+              if (plant.humidity < 40)
+                alerts.push({ id: `${plant.id}-humidity`, message: `${plant.name} needs more humidity.`, className: 'attention-water' });
+              if (plant.temperature < 18 || plant.temperature > 28)
+                alerts.push({ id: `${plant.id}-temp`, message: `${plant.name} is not in optimal temperature.`, className: 'attention-temp' });
+              return alerts;
+            })
+            .map((alert) => (
+              <div key={alert.id} className={`attention-card ${alert.className}`}>
+                <h3>{alert.message}</h3>
+              </div>
+            ))}
+          </div>
+      </section>
 
-      {/* Plant List */}
       <section className="plant-list">
         {plants.map((plant) => (
           <Link to={`/rooted/plant/${plant.id}`} key={plant.id} className="plant-card">
