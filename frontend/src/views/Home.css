@@ -279,3 +279,21 @@
 .modal-close-btn:hover {
   color: #333;
 }
+
+button.tab {
+  background-color: transparent;
+  color: gray;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+button.tab:focus,
+button.tab:hover {
+  outline: none;
+  box-shadow: none;
+}
+
+.active {
+  text-decoration: underline;
+  font-weight: bold;
+}

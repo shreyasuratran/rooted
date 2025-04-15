@@ -1,9 +1,8 @@
 import asyncio
 import aiohttp
-from datetime import datetime, timezone, timedelta
 import random
 
-API_BASE_URL = "http://127.0.0.1:8000/plants"  # Change this if running elsewhere
+API_BASE_URL = "https://rooted-api-production.up.railway.app/plants"  # Change this if running elsewhere
 
 async def fetch_all_plants(session):
     """Fetch all plants from the API."""
@@ -66,7 +65,7 @@ async def simulate_plant_updates():
                 
                 await asyncio.gather(*tasks)
 
-            await asyncio.sleep(5)
+            await asyncio.sleep(60)
 
 if __name__ == "__main__":
     asyncio.run(simulate_plant_updates())

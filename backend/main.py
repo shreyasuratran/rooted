@@ -6,9 +6,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession
 from sqlalchemy.sql import text
 
+from util.config import AWS_ACCESS_KEY_ID, AWS_REGION, AWS_SECRET_ACCESS_KEY
 from util.database import Base, engine, get_db
 from simulation import simulate_plant_updates
 import asyncio
+import boto3
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -30,12 +32,18 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-from routes import auth, user, plant
+s3_client = boto3.client(
+    "s3",
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION 
+)
+
+from routes import auth, user, plant, upload
 
 @app.get("/")
 async def health_check(db: AsyncSession = Depends(get_db)):
     try:
-        # Run a simple query to check DB connection
         result = await db.execute(text("SELECT 1"))
         return {"message": "API is running", "database": "Connected"}
     except Exception as e:
@@ -45,3 +53,4 @@ async def health_check(db: AsyncSession = Depends(get_db)):
 app.include_router(user.router, prefix="/users")
 app.include_router(auth.router, prefix="/auth")
 app.include_router(plant.router, prefix="/plants")
+app.include_router(upload.router, prefix="/upload")

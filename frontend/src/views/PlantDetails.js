@@ -21,7 +21,7 @@ const PlantDetails = () => {
     moisture: '',
     humidity: '',
     temperature: '',
-    image: ''
+    image: '' // This will hold the image URL after file upload.
   });
   const [activeInfo, setActiveInfo] = useState(null);
 
@@ -30,6 +30,23 @@ const PlantDetails = () => {
     sunlight: { title: "Sunlight", body: "This value shows how much light your plant receives." },
     temperature: { title: "Temperature", body: "Plants thrive in stable temperatures between 18–28°C." },
     humidity: { title: "Humidity", body: "Humidity measures moisture in the air." }
+  };
+
+  const fetchPlant = async () => {
+    try {
+      const response = await api.get(`/plants/${id}`);
+      setPlant(response.data);
+      setFormData({
+        name: response.data.name,
+        type: response.data.type,
+        moisture: response.data.moisture,
+        humidity: response.data.humidity,
+        temperature: response.data.temperature,
+        image: response.data.image
+      });
+    } catch (error) {
+      console.error('Error fetching plant:', error);
+    }
   };
 
   useEffect(() => {
@@ -41,44 +58,28 @@ const PlantDetails = () => {
   }, [plant]);
 
   useEffect(() => {
-    const fetchPlant = async () => {
-      try {
-        const response = await api.get(`/plants/${id}`);
-        setPlant(response.data);
-        setFormData({
-          name: response.data.name,
-          type: response.data.type,
-          moisture: response.data.moisture,
-          humidity: response.data.humidity,
-          temperature: response.data.temperature,
-          image: response.data.image
-        });
-      } catch (error) {
-        console.error('Error fetching plant:', error);
-      }
-    };
     fetchPlant();
     const intervalId = setInterval(fetchPlant, 60000);
     return () => clearInterval(intervalId);
   }, [id]);
 
-  const fixConditions = async(e) => {
+  const fixConditions = async (e) => {
     e.preventDefault();
     try {
       const payload = {
-        ...(needsWater && { moisture: Math.floor(Math.random() * 30 + 70 )}),
-        ...(needsHumidity && { humidity: Math.floor(Math.random() * 20 + 40 )}),
-        ...(adjustTemp && { temperature: Math.floor(Math.random() * 10 + 18 )}),
-        ...(adjustLight && { sunlight: Math.floor(Math.random() * 30 + 70 )}),
+        ...(needsWater && { moisture: Math.floor(Math.random() * 30 + 70) }),
+        ...(needsHumidity && { humidity: Math.floor(Math.random() * 20 + 40) }),
+        ...(adjustTemp && { temperature: Math.floor(Math.random() * 10 + 18) }),
+        ...(adjustLight && { sunlight: Math.floor(Math.random() * 30 + 70) }),
       };
       if (Object.keys(payload).length !== 0) {
-        const response = await api.put(`/plants/${id}`, payload);
-        setPlant(response.data);
+        await api.put(`/plants/${id}`, payload);
+        fetchPlant();
       }
     } catch (error) {
       console.error('Error updating plant:', error);
     }
-  }
+  };
 
   const confirmDelete = async () => {
     try {
@@ -95,6 +96,24 @@ const PlantDetails = () => {
 
   const handleFormChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  // New function: handles file upload and updates formData.image with the returned URL.
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const uploadData = new FormData();
+    uploadData.append("file", file);
+
+    try {
+      const response = await api.post("/upload/", uploadData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      // Assume the returned JSON has a property "url" with the image location.
+      setFormData(prev => ({ ...prev, image: response.data.url }));
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   };
 
   const handleFormSubmit = async (e) => {
@@ -116,7 +135,8 @@ const PlantDetails = () => {
         <form onSubmit={handleFormSubmit} className="edit-form">
           <input name="name" value={formData.name} onChange={handleFormChange} placeholder="Name" required />
           <input name="type" value={formData.type} onChange={handleFormChange} placeholder="Type" required />
-          <input name="image" value={formData.image} onChange={handleFormChange} placeholder="Image URL" />
+          {/* Remove the URL input and add a file input */}
+          <input type="file" accept="image/*" onChange={handleFileUpload} />
           <button type="submit">Save</button>
         </form>
       ) : (

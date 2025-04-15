@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import avatarImage from './avatar.png';
 import rootedLogo from './rootedLogo.png'; 
 import { useUser } from './UserContext';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const defaultAvatar = "https://www.gravatar.com/avatar/?d=mp";
   const { user } = useUser();
 
   // Get saved image from localStorage
-  const localProfilePic = localStorage.getItem("profile_picture");
+  const [profilePic, setProfilePic] = useState(user?.profile_picture || defaultAvatar);
+
+  useEffect(() => {
+    setProfilePic(user?.profile_picture || defaultAvatar);
+  }, [user]);
 
   const handleAvatarClick = () => {
     setIsOpen(!isOpen);
   };
-
-  const avatarSrc = localProfilePic || user?.profile_picture || avatarImage;
 
   return (
     <div className="navbar-container">
@@ -27,7 +29,7 @@ const NavBar = () => {
 
       <div className="navbar-right">
         <img
-          src={avatarSrc}
+          src={profilePic}
           alt="Profile"
           className="avatar-img"
           onClick={handleAvatarClick}
@@ -37,7 +39,7 @@ const NavBar = () => {
       <div className={`sidebar-menu ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <img
-            src={avatarSrc}
+            src={profilePic}
             alt="Profile Avatar"
             className="sidebar-avatar"
           />
