@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import api from '../utils/axios';
 import './PlantDetails.css';
@@ -32,7 +32,7 @@ const PlantDetails = () => {
     humidity: { title: "Humidity", body: "Humidity measures moisture in the air." }
   };
 
-  const fetchPlant = async () => {
+  const fetchPlant = useCallback(async () =>  {
     try {
       const response = await api.get(`/plants/${id}`);
       setPlant(response.data);
@@ -47,7 +47,7 @@ const PlantDetails = () => {
     } catch (error) {
       console.error('Error fetching plant:', error);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     if (!plant) return;
@@ -61,7 +61,7 @@ const PlantDetails = () => {
     fetchPlant();
     const intervalId = setInterval(fetchPlant, 60000);
     return () => clearInterval(intervalId);
-  }, [id]);
+  }, [id, fetchPlant]);
 
   const fixConditions = async (e) => {
     e.preventDefault();
