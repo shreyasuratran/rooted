@@ -20,7 +20,7 @@
 .home-title {
   font-size: 30px;
   font-weight: 700;
-  color: #2f4d04;
+  color: #4e7e0a;
   margin-bottom: 12px;
   font-family: 'Segoe UI', sans-serif;
   text-align: left;
@@ -34,7 +34,7 @@
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #b74439;
+  color: #c93527;
 }
 
 .attention-scroll {
@@ -59,31 +59,39 @@
 }
 
 .attention-card {
-  padding: 8px 12px;
+  width: 115px;
+  height: 100px;
+  padding: 10px;
   background-color: #f8f9fa;
-  border-radius: 6px;
+  border-radius: 12px;
   font-size: 13px;
   color: #444;
-  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   border: 1px solid #ddd;
+  flex-shrink: 0;
 }
+
 
 .attention-critical {
-  background-color: #fff0f0;
-  border: 1px solid #f5c2c7;
-  color: #b02a37;
+  background-color: #ffe8e8;
+  border: 1px solid #ffb3b3;
+  color: #d8000c;
 }
 
+
 .attention-water {
-  background-color: #e7f1ff;
-  border: 1px solid #b8daff;
-  color: #005299;
+  background-color: #e6f2ff;
+  border: 1px solid #91caff;
+  color: #1a73e8;
 }
 
 .attention-temp {
-  background-color: #f4dcdc;
-  border: 1px solid #895555;
-  color: #895555;
+  background-color: #fffbe6;
+  border: 1px solid #ffeb99;
+  color: #b38600;
 }
 
 .plant-list {
@@ -297,3 +305,70 @@ button.tab:hover {
   text-decoration: underline;
   font-weight: bold;
 }
+
+.no-attention-msg,
+.no-plants-msg {
+  font-size: 14px;
+  color: #666;
+  padding: 10px;
+  text-align: center;
+}
+
+.see-more-btn {
+  background-color: #e6ffe9;
+  border: 1px solid #a6dcbf;
+  color: #207a59;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  height: 50px;
+  margin-top: 50px;
+}
+
+.see-more-btn:hover {
+  background-color: #d3f5de;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+
+.see-more-btn .icon {
+  font-size: 16px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.all-alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.all-alerts-list .attention-card {
+  width: 100%;
+  height: auto;
+  padding: 16px;
+  font-size: 14px;
+  border-radius: 12px;
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.plant-name {
+  color: #3f630d;
+  font-weight: 700;
+}
+
+

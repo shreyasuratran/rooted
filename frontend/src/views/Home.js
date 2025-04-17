@@ -6,12 +6,11 @@ import './Home.css';
 const Home = () => {
   const [plants, setPlants] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  // newPlant now includes fields for name, type, and image URL.
   const [newPlant, setNewPlant] = useState({ name: '', type: '', image: '' });
   const [uploadLoading, setUploadLoading] = useState(false);
   const [uploadError, setUploadError] = useState('');
-  // Track the active tab: "manual" or "smart"
   const [activeTab, setActiveTab] = useState("manual");
+  const [showAllAlerts, setShowAllAlerts] = useState(false);
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -33,11 +32,10 @@ const Home = () => {
     setNewPlant((prev) => ({ ...prev, [name]: value }));
   };
 
-  // For the manual tab: upload file to /upload/ endpoint
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -48,7 +46,6 @@ const Home = () => {
       const response = await api.post("/upload/", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-      // Assume response returns { url: "https://..." }.
       const imageURL = response.data.url;
       setNewPlant((prev) => ({ ...prev, image: imageURL }));
     } catch (error) {
@@ -59,11 +56,10 @@ const Home = () => {
     }
   };
 
-  // For the smart tab: use /upload/recognize to auto-detect the plant's details
   const handleSmartUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     const formData = new FormData();
     formData.append("file", file);
 
@@ -74,9 +70,7 @@ const Home = () => {
       const response = await api.post("/upload/recognize", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-      // Assume the response returns an object with { name, type, url }
       const { name, type, url } = response.data;
-      // Populate recognized values into newPlant, allowing user to edit if needed.
       setNewPlant((prev) => ({
         ...prev,
         name: name || prev.name,
@@ -94,16 +88,37 @@ const Home = () => {
   const handleAddPlant = async (e) => {
     e.preventDefault();
     try {
-      // Post the new plant; newPlant.image is the URL from file upload or recognition.
       const response = await api.post('/plants/', { ...newPlant });
       setPlants((prev) => [...prev, response.data]);
       setNewPlant({ name: '', type: '', image: '' });
       setShowForm(false);
       setUploadError('');
-      setActiveTab("manual"); // Reset to default tab after submission
+      setActiveTab("manual");
     } catch (error) {
       console.error('Error adding plant:', error);
     }
+  };
+
+  const alerts = plants.flatMap((plant) => {
+    const list = [];
+    if (plant.moisture < 30)
+      list.push({ id: `${plant.id}-moisture`, message: `${plant.name} needs water!`, className: 'attention-critical' });
+    else if (plant.moisture < 50)
+      list.push({ id: `${plant.id}-moisture-soon`, message: `${plant.name} will need water soon.`, className: 'attention-water' });
+    if (plant.humidity < 40)
+      list.push({ id: `${plant.id}-humidity`, message: `${plant.name} needs more humidity.`, className: 'attention-water' });
+    if (plant.temperature < 18 || plant.temperature > 28)
+      list.push({ id: `${plant.id}-temp`, message: `${plant.name} is not in optimal temperature.`, className: 'attention-temp' });
+    return list;
+  });
+
+  const formatAlert = (msg) => {
+    const [first, ...rest] = msg.split(" ");
+    return (
+      <h3>
+        <span className="plant-name">{first}</span> {rest.join(" ")}
+      </h3>
+    );
   };
 
   return (
@@ -114,63 +129,62 @@ const Home = () => {
       <section className="attention-section">
         <h2 className="attention-title">Needs Attention</h2>
         <div className="attention-scroll">
-          {plants
-            .flatMap((plant) => {
-              const alerts = [];
-              if (plant.moisture < 30)
-                alerts.push({ id: `${plant.id}-moisture`, message: `${plant.name} needs water!`, className: 'attention-critical' });
-              else if (plant.moisture < 50)
-                alerts.push({ id: `${plant.id}-moisture-soon`, message: `${plant.name} will need water soon.`, className: 'attention-water' });
-              if (plant.humidity < 40)
-                alerts.push({ id: `${plant.id}-humidity`, message: `${plant.name} needs more humidity.`, className: 'attention-water' });
-              if (plant.temperature < 18 || plant.temperature > 28)
-                alerts.push({ id: `${plant.id}-temp`, message: `${plant.name} is not in optimal temperature.`, className: 'attention-temp' });
-              return alerts;
-            })
-            .map((alert) => (
+          {alerts.length === 0 ? (
+            <div className="no-attention-msg">Your plants are doing great! 🌿</div>
+          ) : (
+            alerts.slice(0, 2).map((alert) => (
               <div key={alert.id} className={`attention-card ${alert.className}`}>
-                <h3>{alert.message}</h3>
+                {formatAlert(alert.message)}
               </div>
-            ))}
-          </div>
+            ))
+          )}
+          {alerts.length > 2 && (
+            <button className="see-more-btn" onClick={() => setShowAllAlerts(true)}>
+              <span className="icon">🌿</span> +{alerts.length - 2} more...
+            </button>
+          )}
+        </div>
       </section>
 
       <section className="plant-list">
-        {plants.map((plant) => (
-          <Link to={`/rooted/plant/${plant.id}`} key={plant.id} className="plant-card">
-            <div className="plant-image">
-              <img src={plant.image || 'https://via.placeholder.com/100'} alt={plant.name} />
-              <div className="status-dot" style={{ backgroundColor: plant.moisture < 50 ? 'orange' : 'green' }}></div>
-            </div>
-            {/* Restored plant-info block */}
-            <div className="plant-info">
-              <h3>{plant.name}</h3>
-              <p className="plant-type">{plant.type}</p>
-              <div className="plant-stats">
-                <div className="stat-item">
-                  <span>💧</span>
-                  <strong>{plant.moisture ? plant.moisture + '%' : 'Sensing...'}</strong>
-                  <div className="stat-label">Moisture</div>
-                </div>
-                <div className="stat-item">
-                  <span>💨</span>
-                  <strong>{plant.humidity ? plant.humidity + '%' : 'Sensing...'}</strong>
-                  <div className="stat-label">Humidity</div>
-                </div>
-                <div className="stat-item">
-                  <span>🌡️</span>
-                  <strong>{plant.temperature ? plant.temperature + '°C': 'Sensing...'}</strong>
-                  <div className="stat-label">Temp</div>
-                </div>
+        {plants.length === 0 ? (
+          <p className="no-plants-msg">Add your first plant by clicking the green plus ⬇️</p>
+        ) : (
+          plants.map((plant) => (
+            <Link to={`/rooted/plant/${plant.id}`} key={plant.id} className="plant-card">
+              <div className="plant-image">
+                <img src={plant.image || 'https://via.placeholder.com/100'} alt={plant.name} />
+                <div className="status-dot" style={{ backgroundColor: plant.moisture < 50 ? 'orange' : 'green' }}></div>
               </div>
-              <p className="updated-time">
-                Last Updated {new Date(plant.updated_at.replace(' ', 'T') + 'Z').toLocaleString('en-US', {
-                  hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric'
-                })}
-              </p>
-            </div>
-          </Link>
-        ))}
+              <div className="plant-info">
+                <h3>{plant.name}</h3>
+                <p className="plant-type">{plant.type}</p>
+                <div className="plant-stats">
+                  <div className="stat-item">
+                    <span>💧</span>
+                    <strong>{plant.moisture ? plant.moisture + '%' : 'Sensing...'}</strong>
+                    <div className="stat-label">Moisture</div>
+                  </div>
+                  <div className="stat-item">
+                    <span>💨</span>
+                    <strong>{plant.humidity ? plant.humidity + '%' : 'Sensing...'}</strong>
+                    <div className="stat-label">Humidity</div>
+                  </div>
+                  <div className="stat-item">
+                    <span>🌡️</span>
+                    <strong>{plant.temperature ? plant.temperature + '°C' : 'Sensing...'}</strong>
+                    <div className="stat-label">Temp</div>
+                  </div>
+                </div>
+                <p className="updated-time">
+                  Last Updated {new Date(plant.updated_at.replace(' ', 'T') + 'Z').toLocaleString('en-US', {
+                    hour: '2-digit', minute: '2-digit', hour12: true, month: 'short', day: 'numeric'
+                  })}
+                </p>
+              </div>
+            </Link>
+          ))
+        )}
       </section>
 
       <button className="fab-button" onClick={() => setShowForm(true)}>+</button>
@@ -178,34 +192,25 @@ const Home = () => {
       {showForm && (
         <div className="modal-overlay" onClick={() => setShowForm(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button 
-              type="button" 
-              className="modal-close-btn" 
-              onClick={() => setShowForm(false)}
-            >×</button>
+            <button className="modal-close-btn" onClick={() => setShowForm(false)}>×</button>
             <h3>Add New Plant</h3>
 
-            {/* Tab header for choosing Manual or Smart input */}
             <div className="tab-header">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className={activeTab === "manual" ? "active tab" : "tab"}
                 onClick={() => {
-                                  if (activeTab==="smart") {
-                                    setNewPlant({ name: '', type: '', image: '' });
-                                  }
-                                  setActiveTab("manual");
-                                }}
+                  if (activeTab === "smart") setNewPlant({ name: '', type: '', image: '' });
+                  setActiveTab("manual");
+                }}
               >
                 Manual
               </button>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className={activeTab === "smart" ? "active tab" : "tab"}
                 onClick={() => {
-                  if (activeTab==="manual") {
-                    setNewPlant({ name: '', type: '', image: '' });
-                  }
+                  if (activeTab === "manual") setNewPlant({ name: '', type: '', image: '' });
                   setActiveTab("smart");
                 }}
               >
@@ -242,7 +247,7 @@ const Home = () => {
                   {uploadError && <p style={{ color: 'red' }}>{uploadError}</p>}
                   {newPlant.image && (
                     <div className="image-preview">
-                      <img src={newPlant.image} alt="Recognized Plant" style={{ maxWidth: "100px" }} />
+                      <img src={newPlant.image} alt="Uploaded Plant" style={{ maxWidth: "100px" }} />
                     </div>
                   )}
                 </>
@@ -257,8 +262,6 @@ const Home = () => {
                   />
                   {uploadLoading && <p>Recognizing plant...</p>}
                   {uploadError && <p style={{ color: 'red' }}>{uploadError}</p>}
-                  
-                  {/* Render name and type inputs only if recognition has returned a value */}
                   {newPlant.name && (
                     <>
                       <input
@@ -287,11 +290,32 @@ const Home = () => {
                 </>
               )}
               <button type="submit">Add Plant</button>
-              <button type="button" onClick={() =>{
-                                                    setShowForm(false);
-                                                    setNewPlant({ name: '', type: '', image: '' });
-                                                  }}>Cancel</button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setNewPlant({ name: '', type: '', image: '' });
+                }}
+              >
+                Cancel
+              </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showAllAlerts && (
+        <div className="modal-overlay" onClick={() => setShowAllAlerts(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setShowAllAlerts(false)}>×</button>
+            <h3>All Plant Alerts</h3>
+            <div className="all-alerts-list">
+              {alerts.map((alert) => (
+                <div key={alert.id} className={`attention-card ${alert.className}`}>
+                  {formatAlert(alert.message)}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
